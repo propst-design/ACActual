@@ -54,12 +54,7 @@ were written by **Claude** (Anthropic's AI model, working in Claude Cowork), dir
 designed and play-tested by **Jacob** ([propst-design](https://github.com/propst-design)).
 Expect rough edges; bug reports with logs help a lot.
 
-Playtesters: 
-**PoppiPoppins**
-**Hexxyz**
-**Saber**
-**Frost**
-
+Playtesters: **PoppiPoppins** and **Hexxyz**.
 
 ## Credits and license
 
