@@ -1,6 +1,6 @@
 # Arma Commander Actual (AC: Actual)
 
-An unofficial fan port of the Arma 3 **Arma Commander** hybrid RTS/FPS game mode to Arma Reforger.
+An unofficial fan port of the Arma 3 **Arma Commander** hybrid RTS/FPS game mode to Arma Reforger. Long-time Arma fans should feel right at home in this return to what Arma was always about: a military sandbox with you at the helm.
 
 **Download:** [ACActual-Arland.zip](https://github.com/propst-design/ACActual/releases/latest/download/ACActual-Arland.zip).
 Unzip it and open "READ ME FIRST.txt". The Host and Join launchers update themselves from this page.
