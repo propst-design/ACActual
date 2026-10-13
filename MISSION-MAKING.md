@@ -451,6 +451,7 @@ to set an option directly; most hosts can just use the menu.
 |---|---|
 | `-acrPlayers US` / `USSR` / `any` | Put every player on one side. The mode places a spawn point for that side at one of its bases |
 | `-acrFactions vanilla` / `ru_us` / `ru_ua` / `us_ua` | Select the playable faction pair (the launcher sets this from its Factions menu) |
+| `-acrMarksmen 0` | Disable the automatic DMR carrier in full UA/Russian rifle squads (enabled by default; keeps squad size and support weapons) |
 | `-acrAI both` / `none` / `<faction>` | Which sides an AI commander leads (overrides `m_bAICommander`) |
 | `-acrUnitCap N` | AI commander squad cap for every side (overrides `m_iAIUnitCap`) |
 | `-acrThreat low` / `normal` / `high` | Threat level. Low: prices climb +25% per purchase (stepped pricing; fixed stock: half the infantry stock, a third of the vehicles, at least one each), 0.75x soldier limit, 0.6x AI squad cap, one AI attack at a time, AI buys few vehicles. High: prices climb +8% (fixed stock: double stock), 1.5x soldier limit and AI squad cap, one more AI attack at a time. Normal: +15%, nothing else changes |
@@ -498,6 +499,10 @@ to set an option directly; most hosts can just use the menu.
   AI-only sides such as FIA may work, but have not been tested.
 - **Arland and Everon.** Everon (`Worlds/ACR_Everon.ent`) is a first pass: travel, rides and the AI
   commander over 13 km are still being tuned.
+- Advancing infantry in Combat mode can detour around a fresh infantry contact after a short
+  stalemate. Nearby squads take turns manoeuvring; the original destination and queued orders
+  remain. Defend, Suppress, Fast and Silent orders keep their assigned roles. Terrain and native
+  pathfinding limit which flanks can be used; live combat acceptance is still pending.
 - **No victory conditions**, by design: the match runs until the host ends it.
 - **The AI commander can't fly**: aircraft are for players only (support helicopters are script-flown).
 - Settings may still change between alpha builds. This page is updated with them.
