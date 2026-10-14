@@ -156,6 +156,23 @@ game's US side for that session. ACE All in One is a separate optional choice. E
 the same side pairing and ACE choice as the host. With no extra faction mods selected, the game uses its
 usual US vs USSR sides.
 
+**Any faction your world lists.** Besides those pairs, the in-game setup screen (Blue side / Red side)
+and `-acrFactions WEST,EAST` can pick any two factions in your world's faction manager whose Game Master
+catalogs have soldiers and groups. The world's US-side bases, units and spawns go to the first, USSR-side
+to the second. To offer a faction mod, add its faction config to the `Factions` list of the world's
+`SCR_FactionManager` (an entry whose mod isn't loaded is simply absent in that session):
+
+```
+  SCR_Faction "{<a new GUID>}" : "{<the mod's faction config GUID>}Configs/Factions/<Faction>.conf" {
+  }
+```
+
+A faction without its own `ACR_FactionSettings` entity copies the settings of the side it replaces
+(RP, AI commander, caps, prices, supports) and builds its buy list and garrisons from its catalog; its
+command unit is the catalog's officer, else its squad leader. This is not hand-fitting: an untuned faction
+can look mixed (several uniforms), and anything it lacks falls back to vanilla units. Only RHS and Ukraine
+Armed Forces RHS are hand-fitted. Requests for proper support of a faction mod: https://github.com/propst-design/ACActual/issues
+
 You can use `m_aPrefabMappings` to replace a unit with one from another mod. Add a row for the original
 prefab and choose its replacement from the prefab browser. AC: Actual also tries to match starting units
 by their catalog name or role. If it cannot find a replacement, it uses the original unit and writes a
@@ -361,15 +378,44 @@ Create a **Mission Header** in Workbench and choose your saved world. This gives
 game's scenario list. Workbench fills in most of the details for you; this is what the saved file looks like:
 
 ```
-SCR_MissionHeader {
+ACR_MissionHeader {
  World "{<your world's GUID>}Worlds/<YourWorld>.ent"
  m_sName "AC: Actual - <Map>"
  m_sAuthor "<you>"
  m_sDescription "<one line>"
  m_sGameMode "Arma Commander Actual"
  m_iPlayerCount 8
+ m_sAcrSize "half"
 }
 ```
+
+Use the class `ACR_MissionHeader` (a plain `SCR_MissionHeader` still works, without the fields
+below). Its extra fields are the scenario's default [host options](#host-options), so you can ship
+several scenarios on one world (for example a full map and a flashpoint) that differ only in their
+header. Leave a text field blank or a number at `-1` to keep the world's own setting. A host's
+launch option beats the header; a dedicated server's config can also override header fields by
+name under `gameProperties.missionHeader`.
+
+| Field | Same as |
+|---|---|
+| `m_sAcrLayout` | `-acrLayout` |
+| `m_sAcrSize` | `-acrSize` |
+| `m_sAcrFactions` | `-acrFactions` |
+| `m_sAcrPlayers` | `-acrPlayers` |
+| `m_sAcrThreat` | `-acrThreat` |
+| `m_sAcrPricing` | `-acrPricing` |
+| `m_sAcrAI` | `-acrAI` |
+| `m_iAcrUnitCap` | `-acrUnitCap` |
+| `m_iAcrSoldierCap` | `-acrSoldierCap` |
+| `m_iAcrStartRP` | `-acrStartRP` |
+| `m_fAcrIncome` | `-acrIncome` |
+| `m_iAcrSkill` | `-acrSkill` |
+| `m_fAcrReaction` | `-acrReaction` |
+| `m_iAcrSharedCommand` | `-acrSharedCommand` (0 or 1) |
+| `m_iAcrRespawnSeconds` | `-acrRespawnSeconds` |
+| `m_iAcrGameMasterAll` | `-acrGameMasterAll` (0 or 1) |
+| `m_iAcrMarksmen` | `-acrMarksmen` (0 or 1) |
+| `m_iAcrSetup` | `-acrSetup` (0 or 1) |
 
 The header only adds your world to the scenario list; it does not package or copy the world. Workbench
 creates the `.meta` files beside the world and header. Keep them there and do not edit them. When you
@@ -450,7 +496,7 @@ to set an option directly; most hosts can just use the menu.
 | Option | What it does |
 |---|---|
 | `-acrPlayers US` / `USSR` / `any` | Put every player on one side. The mode places a spawn point for that side at one of its bases |
-| `-acrFactions vanilla` / `ru_us` / `ru_ua` / `us_ua` | Select the playable faction pair (the launcher sets this from its Factions menu) |
+| `-acrFactions vanilla` / `ru_us` / `ru_ua` / `us_ua` / `<west>,<east>` | Select the playable faction pair: a named pair (the launcher's Factions menu) or any two faction keys your world's faction manager lists, e.g. `US,FIA`. The world's US-side bases and units go to the first, USSR-side to the second. A faction is playable when the world lists it and its catalog has soldiers and groups; a side without an `ACR_FactionSettings` entity copies the replaced side's settings (RP, AI commander, caps, supports) and builds its buy list from its catalog |
 | `-acrMarksmen 0` | Disable the automatic DMR carrier in full UA/Russian rifle squads (enabled by default; keeps squad size and support weapons) |
 | `-acrAI both` / `none` / `<faction>` | Which sides an AI commander leads (overrides `m_bAICommander`) |
 | `-acrUnitCap N` | AI commander squad cap for every side (overrides `m_iAIUnitCap`) |
@@ -466,6 +512,7 @@ to set an option directly; most hosts can just use the menu.
 | `-acrSharedCommand 0` / `1` | Overrides `m_bSharedCommand` |
 | `-acrRespawnSeconds N` | Overrides `m_iRespawnSeconds` |
 | `-acrGameMasterAll` | Game Master for every player, not just host and admins |
+| `-acrSetup 1` / `0` | Setup screen before the match. With 1, nothing spawns until the host (or a logged-in admin on a dedicated server) picks the battlefield, threat, prices, AI commanders, AI squad cap, starting RP, income and shared command in a dialog and presses Start; other players wait. A dedicated server starts by itself 5 minutes after the first player joins if nobody does. Our Arland and Everon scenarios set it in their header; the AC: Actual launchers pass `-acrSetup 0` because their menu already asked |
 | `-acrFirstPlayerHost` | On dedicated servers, additionally trust the first connected player for this session. Off by default; configured admins remain trusted, and authority does not transfer after the first player disconnects |
 
 ## Designing a good map
