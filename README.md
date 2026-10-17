@@ -1,5 +1,10 @@
 # Arma Commander Actual (AC: Actual)
 
+> [!IMPORTANT]
+> **Install and update AC: Actual through the in-game Workshop.**
+> This public repository hosts player documentation, bug reports and legacy ZIP releases; active source development is maintained in a separate private repository.
+> **GitHub ZIPs and their external launchers are a legacy/development fallback and may lag behind Workshop.** Use the Workshop version for normal play; see [Play through Workshop](#play-through-workshop) below.
+
 An unofficial fan port of the Arma 3 **Arma Commander** hybrid RTS/FPS game mode to Arma Reforger.
 
 ## Play through Workshop
